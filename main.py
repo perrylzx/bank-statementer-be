@@ -9,9 +9,20 @@ app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
 
-@app.route("/transactions", methods=["GET"])
+@app.route("/transactions", methods=["POST"])
 def getTransactions():
-    df = pd.read_csv("your_statement.csv", on_bad_lines="skip", index_col=False)
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"error": "Empty filename"}), 400
+
+    try:
+        df = pd.read_csv(file, on_bad_lines="skip", index_col=False)
+    except Exception as e:
+        return jsonify({"error": f"Failed to parse CSV: {str(e)}"}), 400
     transactions = getTransactionsService(df)
 
     return jsonify({"transactions": transactions})
