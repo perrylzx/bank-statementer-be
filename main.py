@@ -46,5 +46,6 @@ def categorize():
     return jsonify({"transactions": transactions})
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/ping")
+def ping():
+    return "Latest code (deployed)", 200
