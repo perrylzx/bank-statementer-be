@@ -6,7 +6,7 @@ from services.transaction_service import getTransactionsService, categorizeAndUp
 app = Flask(__name__)
 
 # Enable CORS for your Next.js frontend
-CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["https://bank-statementer-fe.vercel.app"])
 
 
 @app.route("/transactions", methods=["POST"])
