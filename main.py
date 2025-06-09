@@ -6,7 +6,7 @@ from services.transaction_service import getTransactionsService, categorizeAndUp
 app = Flask(__name__)
 
 # Enable CORS for your Next.js frontend
-CORS(app, origins=["https://bank-statementer-fe.vercel.app"])
+CORS(app, origins=["https://bank-statementer-fe.vercel.app", "http://localhost:3000"])
 
 
 @app.route("/transactions", methods=["POST"])
@@ -33,11 +33,11 @@ def categorize():
     reference = data.get("reference_transaction")
     transactions = data.get("transactions", [])
 
-    if not reference or not transactions:
+    if not reference:
         return jsonify({"error": "Missing reference_transaction or transactions"}), 400
 
     ref_desc = reference.get("description", "").strip().lower()
-    ref_category = reference.get("category", "").strip()
+    ref_category = reference.get("category", "")
     if not ref_desc or not ref_category:
         return jsonify({"error": "Description and category required"}), 400
 
