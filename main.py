@@ -31,7 +31,7 @@ def getTransactions():
 def categorize():
     data = request.get_json()
     reference = data.get("reference_transaction")
-    transactions = data.get("transactions", [])
+    transactions = data.get("transactions")
 
     if not reference:
         return jsonify({"error": "Missing reference_transaction or transactions"}), 400
@@ -40,7 +40,9 @@ def categorize():
     ref_category = reference.get("category", "")
     if not ref_desc or not ref_category:
         return jsonify({"error": "Description and category required"}), 400
-
+    if not transactions:
+        return jsonify({"error": "No transactions to categorize"}), 400
+    
     transactions = categorizeAndUpdate(ref_desc=ref_desc, ref_category=ref_category, transactions=transactions)
 
     return jsonify({"transactions": transactions})
