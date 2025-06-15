@@ -52,7 +52,7 @@ def getTransactionsService(df):
 
     transactions = []
 
-    for _, row in df.iterrows():
+    for index, row in df.iterrows():
         debit_str = str(row["Debit Amount"]).replace(",", "").strip()
         credit_str = str(row["Credit Amount"]).replace(",", "").strip()
 
@@ -89,6 +89,7 @@ def getTransactionsService(df):
                 category = known_categories[best_match_idx]
 
         transactions.append({
+            "id": index,
             "date": str(date),
             "type": row["Reference"],
             "description": description,  # Keep original description for display
