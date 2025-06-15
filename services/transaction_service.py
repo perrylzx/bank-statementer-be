@@ -75,7 +75,7 @@ def getTransactionsService(df):
             if pd.notna(x)
         ).lower()
 
-        category = ["Uncategorized"]
+        category = []
 
         if known_embeddings is not None:
             # Use cleaned description for similarity matching
